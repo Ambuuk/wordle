@@ -1,3 +1,5 @@
+import { io } from "socket.io-client"
+
 const targetWords = [
     "банди",
     "гутал",
@@ -22,6 +24,15 @@ const msOffset = Date.now - offsetFromDate
 const dayOffset = msOffset / 1000 / 60 / 60 / 24
 const targetWord1 = targetWords[Math.floor(dayOffset)]
 const targetWord = "банди"
+
+const socket = io('http://localhost:3000')
+socket.on('connect', () => {
+    console.log(`You connected with id: ${socket.id}`)
+})
+
+socket.on("receive-guess", guess => {
+    console.log(guess)
+})
 
 startInteraction()
 
@@ -137,6 +148,7 @@ function flipTiles(tile, index, array, guess) {
         if (index === array.length - 1) {
             tile.addEventListener("transitionend", () => {
                 startInteraction()
+                socket.emit('send-guess', guess)
                 checkWinLose(guess, array)
             }, { once: true })
         }
@@ -196,3 +208,5 @@ function danceTiles(tiles) {
         }, index * DANCE_ANIMATION_DURATION / 5)
     })
 }
+
+const gameScreen = document.getElementById("gameScreen")
