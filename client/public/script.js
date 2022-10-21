@@ -25,7 +25,7 @@ const dayOffset = msOffset / 1000 / 60 / 60 / 24
 const targetWord1 = targetWords[Math.floor(dayOffset)]
 const targetWord = "гутал"
 let currentRoom = ""
-const socket = io('http://localhost:3000')
+const socket = io()
 
 socket.on('connect', () => {
     console.log(`You connected with id: ${socket.id}`)
