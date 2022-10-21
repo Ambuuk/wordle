@@ -1,4 +1,4 @@
-import { io } from "socket.io-client"
+// import { io } from 'socket.io-client'
 
 const targetWords = [
     "банди",
@@ -23,9 +23,10 @@ const offsetFromDate = new Date(2022, 0, 1)
 const msOffset = Date.now - offsetFromDate
 const dayOffset = msOffset / 1000 / 60 / 60 / 24
 const targetWord1 = targetWords[Math.floor(dayOffset)]
-const targetWord = "банди"
-
+const targetWord = "гутал"
+let currentRoom = ""
 const socket = io('http://localhost:3000')
+
 socket.on('connect', () => {
     console.log(`You connected with id: ${socket.id}`)
 })
@@ -47,7 +48,6 @@ function stopInteraction() {
 }
 
 function handleMouseClick(e) {
-    console.log(e.target);
     if (e.target.matches("[data-key]")) {
         pressKey(e.target.dataset.key)
         return
@@ -148,7 +148,7 @@ function flipTiles(tile, index, array, guess) {
         if (index === array.length - 1) {
             tile.addEventListener("transitionend", () => {
                 startInteraction()
-                socket.emit('send-guess', guess)
+                socket.emit('send-guess', guess, currentRoom)
                 checkWinLose(guess, array)
             }, { once: true })
         }
@@ -209,4 +209,21 @@ function danceTiles(tiles) {
     })
 }
 
+
+
+document.getElementById("joinRoomButton").addEventListener("click", joinRoom);
+
+function joinRoom() {
+    currentRoom = document.getElementById("roomCode").value
+    socket.emit('join-room', currentRoom)
+    document.getElementById("currentRoom").innerText += currentRoom
+}
+
 const gameScreen = document.getElementById("gameScreen")
+
+
+// Категоритой үг таах.
+// Үгээ бэлдээд upload хийх боломжтой байх.
+// Бааз дээр хадгалах.
+// English үг тааж болох боломжтой байх.
+// Үгээ харуулж байгаад таалгуулах.

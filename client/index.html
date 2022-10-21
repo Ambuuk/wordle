@@ -91,8 +91,14 @@
                 </svg></button>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
-
+    <div class="roomPanel">
+        <div id="currentRoom">Таны холбогдсон өрөө : </div>
+        <form class="form">
+            <input type="text" class="roomCode" id="roomCode" placeholder="Өрөөний код" />
+            <button type="button" class="btn btn--primary btn--inside" id="joinRoomButton">Холбогдох</button>
+        </form>
+    </div>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
 </body>
 
 </html>

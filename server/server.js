@@ -5,9 +5,16 @@ const io = require('socket.io')(3000, {
 })
 
 io.on('connection', socket => {
-    console.log(socket.id)
-    socket.on("send-guess", guess => {
-        socket.broadcast.emit("receive-guess", guess)
-        console.log(guess)
+    socket.on("send-guess", (guess, room) => {
+        if (room === '') {
+            socket.broadcast.emit("receive-guess", guess)
+        } else {
+            socket.to(room).emit("receive-guess", guess)
+        }
+    })
+
+    socket.on("join-room", room => {
+        console.log(room);
+        socket.join(room)
     })
 })
